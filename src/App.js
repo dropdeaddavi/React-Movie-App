@@ -1,7 +1,8 @@
 
 import './App.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import SearchIcon from './search.svg';
+import MovieCard from './components/MovieCard';
 
 // APIKey = 4b3db61
 
@@ -15,11 +16,13 @@ const movie1 = {
 };
 
 function App() {
+  const [movie, setMovie] = useState([]);
+
   const searchMovies = async (title) => {
     const response = await fetch(`${API_Url}&s=${title}`);
     const data = await response.json();
 
-    console.log(data.Search);
+    setMovie(data.Search);
   }
 
   useEffect(() => {
@@ -45,20 +48,7 @@ function App() {
         }}/>
       </div>
       <div className='container'>
-        <div className='movie'>
-          <div>
-            <p>{movie1.Year}</p>
-          </div>
-          <div>
-            <img src={movie1.Poster !== 'N/A' ? movie1.Poster : 'https://via.placeholder.com/400'} alt={movie1.Title}/>
-          </div>
-          <div>
-            <span>{movie1.Type}</span>
-            <h3>
-              {movie1.Title}
-            </h3>
-          </div>
-        </div>
+        <MovieCard movie1={movie1}/>
       </div>
     </div>
   );
