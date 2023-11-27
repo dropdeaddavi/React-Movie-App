@@ -7,13 +7,6 @@ import MovieCard from './components/MovieCard';
 // APIKey = 4b3db61
 
 const API_Url = 'http://www.omdbapi.com?apikey=4b3db61';
-const movie1 = {
-  "Title": "Superman II",
-  "Year": "1980",
-  "imdbID": "tt0081573",
-  "Type": "movie",
-  "Poster": "https://m.media-amazon.com/images/M/MV5BZDQzNjQwZjYtNjUzOS00MzAzLTg5NDYtN2MyNjVlYjhhYWFlXkEyXkFqcGdeQXVyNjc5NjEzNA@@._V1_SX300.jpg"
-};
 
 function App() {
   const [movies, setMovies] = useState([]);
@@ -27,7 +20,7 @@ function App() {
   }
 
   useEffect(() => {
-    searchMovies('spiderman');
+    searchMovies(searchTerm);
   }, []);
 
   return (
@@ -37,15 +30,21 @@ function App() {
       <div className='search'>
         <input 
         placeholder='Search for movies' 
-        value='Superman'
-        onChange={() => {
-
-        }}/>
+        value={searchTerm}
+        onChange={(event) => {
+          setSearchTerm(event.target.value);
+        }}
+        onKeyDown={(event) => {
+          if (event.key === 'Enter') {
+            searchMovies(searchTerm);
+          }
+        }}  
+        />
         <img 
         src={SearchIcon}
         alt='search'
         onClick={() => {
-
+          searchMovies(searchTerm);
         }}/>
       </div>
 
