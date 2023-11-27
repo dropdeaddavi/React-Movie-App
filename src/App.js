@@ -16,17 +16,18 @@ const movie1 = {
 };
 
 function App() {
-  const [movie, setMovie] = useState([]);
+  const [movies, setMovies] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const searchMovies = async (title) => {
     const response = await fetch(`${API_Url}&s=${title}`);
     const data = await response.json();
 
-    setMovie(data.Search);
+    setMovies(data.Search);
   }
 
   useEffect(() => {
-    searchMovies('superman');
+    searchMovies('spiderman');
   }, []);
 
   return (
@@ -47,9 +48,21 @@ function App() {
 
         }}/>
       </div>
-      <div className='container'>
-        <MovieCard movie1={movie1}/>
-      </div>
+
+      {
+        movies?.length > 0 
+          ? (
+            <div className='container'>
+              {movies.map((movie) =>{
+                return <MovieCard movie={movie}></MovieCard>
+              })}
+            </div>
+          ) : (
+            <div className='empty'>
+              <h2>No Movie</h2>
+            </div>
+          )
+      } 
     </div>
   );
 }
